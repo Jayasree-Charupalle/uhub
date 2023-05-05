@@ -1,0 +1,9 @@
+http:
+  port: "8081"
+  host: "localhost"
+db:
+  uhub:
+    username: "![eGuJILg5yOTcZ0Hiyv7J8g==]" 
+    password: "![eGuJILg5yOSCinh/bfpxWA==]"
+    host: "![eAUdeax3p0GFc0Tp+x7Cyo68ZR2uo/jmNpyk9FYH5FZNNs12lv6LHQ==]"
+    port: "![hORWROyyczw=]"

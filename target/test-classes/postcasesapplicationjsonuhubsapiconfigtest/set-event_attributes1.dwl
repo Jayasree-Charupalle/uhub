@@ -1,0 +1,30 @@
+{
+  "headers": {
+    "x-correlation-id": "wertyui",
+    "x-transaction-id": "3w1545768",
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.32.2",
+    "accept": "*/*",
+    "postman-token": "0a68be87-1083-4829-867e-f8dc1e43ceb9",
+    "host": "localhost:8081",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "467"
+  },
+  "clientCertificate": null,
+  "method": "POST",
+  "scheme": "http",
+  "queryParams": {},
+  "requestUri": "/api/cases",
+  "queryString": "",
+  "version": "HTTP/1.1",
+  "maskedRequestPath": "/cases",
+  "listenerPath": "/api/*",
+  "relativePath": "/api/cases",
+  "localAddress": "/127.0.0.1:8081",
+  "uriParams": {},
+  "rawRequestUri": "/api/cases",
+  "rawRequestPath": "/api/cases",
+  "remoteAddress": "/127.0.0.1:60043",
+  "requestPath": "/api/cases"
+}

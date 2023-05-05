@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="get:\reports:uhub-sapi-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+  {
+    source: "Hospital1",
+    caseID: "456464",
+    caseType: "positive",
+    firstName: "John",
+    lastName: "Nixon",
+    phone: "541-754-3010",
+    email: "john@gmail.com",
+    dateOfBirth: "1989-04-26",
+    nationalID: "209-49-6193",
+    nationalIDType: "SSN",
+    address: {
+      streetAddress: "1600 Pennsylvania Avenue NW",
+      city: "Washington",
+      state: "DC",
+      postal: "20500",
+      country: "USA"
+    }
+  }, 
+  {
+    source: "Hospital1",
+    caseID: "528293",
+    caseType: "negative",
+    firstName: "John",
+    lastName: "Nixon",
+    phone: "541-754-3010",
+    email: "john@gmail.com",
+    dateOfBirth: "1989-04-26",
+    nationalID: "209-49-6193",
+    nationalIDType: "SSN",
+    address: {
+      streetAddress: "1600 Pennsylvania Avenue NW",
+      city: "Washington",
+      state: "DC",
+      postal: "20500",
+      country: "USA"
+    }
+  }
+]]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<ee:transform doc:name="correlation Id and input payload" doc:id="1113b309-ccf9-4d93-8ae7-c070667c93ba" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="correlationId" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.headers."x-correlation-id"]]></ee:set-variable>
+				<ee:set-variable variableName="Inputpayload" ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="0b7422fc-ded2-4f3b-8ab8-545de9d2d606" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="Params" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.queryParams.state]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<until-successful maxRetries="3" doc:name="Until Successful" doc:id="723ae6ad-cda4-4293-9fb4-ca4ee5205cbb" >
+			<db:select doc:name="Select" doc:id="c6cc123b-8216-47f6-a359-067e49526aba" config-ref="Database_Config">
+			<db:sql><![CDATA[select case_id,source,case_type,first_name,last_name,phone,email,date_of_birth,national_Id,national_id_type,street_address,city,state,postal,country from employee where state = :state]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+	state: vars.Params
+}]]]></db:input-parameters>
+		</db:select>
+		</until-successful>
+		<choice doc:name="Choice" doc:id="e8d8c325-7768-4f0d-9344-83a0b4fad90c" >
+			<when expression="#[sizeOf(payload)&gt;0]">
+				<ee:transform doc:name="Transform Message" doc:id="d038c048-4480-499b-baf7-7ae4d8e95e69" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map((item,index)->{
+	"caseId": item.case_id,
+	"source": item.source,
+	"caseType": item.case_type,
+	"firstName": item.first_name,
+	"lastName": item.last_name,
+	"phone": item.phone,
+	"email": item.email,
+	"dateOfBirth": item.date_of_birth,
+	"nationalId": item.national_Id,
+	"nationalIdType": item.national_id_type,
+	"address": {
+		"streetAddress": item.street_address,
+		"city": item.city,
+		"state": item.state,
+		"postal": item.postal,
+		"country": item.country
+	}
+})
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="72f0fca9-fbed-479f-b8b5-a15844c834b5" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: 404,
+	message : "Not Found",
+	description: "Resource Not Found",
+	dateTime: now() as String {format: "yyyy-MM-dd'T'HH:mm:ss'Z'"},
+	transactionId: vars.transactionId
+}
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="a23ecf87-0509-4129-9e64-ee1b90e49bb4" message="#[payload]"/>
+    
+</flow>
+	
+	</mule>

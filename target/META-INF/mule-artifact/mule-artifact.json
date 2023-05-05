@@ -1,0 +1,46 @@
+{
+  "configs": [
+    "implementation/get-covid-case-by-nationId.xml",
+    "global.xml",
+    "uhub-sapi.xml",
+    "implementation/update-covid-case.xml",
+    "global-error-handler.xml",
+    "implementation/register-covid-case.xml",
+    "implementation/get-covid-reports.xml",
+    "implementation/healthchec.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:uhub-sapi-error:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.4.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "application-types.xml",
+        "dev.yaml",
+        "get-covid-case-by-nationId-suite.xml",
+        "get-covid-reports-suite.xml",
+        "global-error-handler.xml",
+        "global.xml",
+        "healthchec-suite.xml",
+        "implementation/get-covid-case-by-nationId.xml",
+        "implementation/get-covid-reports.xml",
+        "implementation/healthchec.xml",
+        "implementation/register-covid-case.xml",
+        "implementation/update-covid-case.xml",
+        "log4j2.xml",
+        "register-covid-case-suite.xml",
+        "uhub-sapi-suite.xml",
+        "uhub-sapi.xml",
+        "update-covid-case-suite.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="get-covid-reports-suite.xml" />
+	<munit:test name="get:\reports:uhub-sapi-config-test" doc:id="8896d96e-14fb-4a54-9ebd-8790236457de" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Select" doc:id="79f89425-ed8b-4ece-915c-2cd699164b89" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c6cc123b-8216-47f6-a359-067e49526aba" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_payload.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="Params" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_4.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Spy Transform Message" doc:id="cd17c67c-a8b0-4cb0-9d61-4585cf0e7f35" processor="ee:transform">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d038c048-4480-499b-baf7-7ae4d8e95e69" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="647ec8b0-8cdf-48e5-a531-de81bb7b7b0a" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import getreportsuhubsapiconfigtest::spy_assert_payload
+---
+spy_assert_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="8e458ea9-a094-4135-8159-a935982762c3" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import getreportsuhubsapiconfigtest::spy_assert_payload1
+---
+spy_assert_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit:set-event doc:name="Set Input" doc:id="dd4c0eb3-8cd5-4135-907f-c561193fe7f7" >
+				<munit:payload value="#[readUrl('classpath://getreportsuhubsapiconfigtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getreportsuhubsapiconfigtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getreportsuhubsapiconfigtest\set-event_variable_.dwl')]" />
+					<munit:variable key="transactionId" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\reports:uhub-sapi-config" doc:id="74fd6b15-25b2-4c0d-b7e0-34f711842303" name="get:\reports:uhub-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="8c065782-a88c-4407-bec6-468866e42344" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getreportsuhubsapiconfigtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Transform Message" doc:id="cf8a2372-2f03-4a73-bbf1-bf03f439cecf" processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d038c048-4480-499b-baf7-7ae4d8e95e69" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="Copy_of_get:\reports:uhub-sapi-config-test" doc:id="4a983da9-09df-4380-b9f8-41087eec7e31" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Copy_of_Mock Select" doc:id="17c3f9bf-1d30-47fa-a1dc-d3cc8ed7a3fc" processor="db:select" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c6cc123b-8216-47f6-a359-067e49526aba" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_payload1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="Params" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\mock_variable_4.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Copy_of_Spy Transform Message" doc:id="a4a7f3fa-2197-4e18-9a14-e96d841bdded" processor="ee:transform" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d038c048-4480-499b-baf7-7ae4d8e95e69" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<munit-tools:assert doc:name="Copy_of_Assert payload" doc:id="d67036cd-a6ac-44cf-bded-7406ce38d4a3" message="The payload does not match" >
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import getreportsuhubsapiconfigtest::spy_assert_payload
+---
+spy_assert_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<munit-tools:assert doc:name="Copy_of_Assert payload" doc:id="86184d60-08dc-4089-8f18-87242f8c8fbd" message="The payload does not match" >
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import getreportsuhubsapiconfigtest::spy_assert_payload1
+---
+spy_assert_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit:set-event doc:name="Copy_of_Set Input" doc:id="f43c5690-add1-4f6e-b10e-65f9deb12f2c" >
+				<munit:payload value="#[readUrl('classpath://getreportsuhubsapiconfigtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getreportsuhubsapiconfigtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getreportsuhubsapiconfigtest\set-event_variable_.dwl')]" />
+					<munit:variable key="transactionId" value="#[output application/json --- readUrl('classpath://getreportsuhubsapiconfigtest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Copy_of_Flow-ref to get:\reports:uhub-sapi-config" doc:id="852bb419-ac61-4a2a-8f2f-ae3aa74c569f" name="get:\reports:uhub-sapi-config" />
+		</munit:execution>
+		<munit:validation >
+<!-- [STUDIO:"Assert equals"]			<munit-tools:assert-equals doc:name="Assert equals" doc:id="110f8151-15e5-4bbb-94b8-a669b09f1871" actual="#[payload]" expected="#[%dw 2.0&#10;import getreportsuhubsapiconfigtest::assert_equal&#10;&#45;&#45;-&#10;assert_equal::main({payload: payload, attributes: attributes, vars: vars})]"/> [STUDIO] -->
+			<munit-tools:assert doc:name="Assert expression" doc:id="7b18c022-e349-4534-abd7-093b2a21d8fb" >
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getreportsuhubsapiconfigtest::assert_equal
+---
+assert_equal::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Copy_of_Verify Transform Message" doc:id="1ff12ee2-30f4-491a-92ac-42383a547472" processor="ee:transform" times="1" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="72f0fca9-fbed-479f-b8b5-a15844c834b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

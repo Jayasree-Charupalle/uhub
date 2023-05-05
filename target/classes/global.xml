@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="ef876f27-ad2d-49ee-92cb-aedc2975498a" file="dev.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="b325e7ad-133b-4cf9-b532-7a3c92f24619" file="dev.yaml" key="uhub" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="dc312f6d-f7d9-4b54-b859-b6c68f6d0116" >
+		<db:my-sql-connection host="${secure::db.uhub.host}" port="${secure::db.uhub.port}" user="${secure::db.uhub.username}" password="${secure::db.uhub.password}" database="uhubdev" />
+	</db:config>
+	<configuration doc:name="Configuration" doc:id="efb7fca6-4421-478f-8131-811d88478622" defaultErrorHandler-ref="global_error_Handler" />
+</mule>

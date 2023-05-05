@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="uhub-sapi-suite.xml" />
+	<munit:test name="uhub-sapi-main-test" doc:id="e335bc53-dcf0-40a3-a0af-62403477c234" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="bded08c7-c3c3-466f-9a22-4743ba294eba" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="dcf2daf3-62ac-49b7-804d-2f6640defd95" >
+				<munit:payload value="#[readUrl('classpath://uhubsapimaintest\set-event_payload2.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://uhubsapimaintest\set-event_attributes2.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to uhub-sapi-main" doc:id="05891db9-e9f8-485e-94b7-d03f5eaf1e47" name="uhub-sapi-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="eb452e61-3c1b-46a6-9005-22a9df7674dd" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import uhubsapimaintest::assert_expression_payload2
+---
+assert_expression_payload2::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="APIKIT:BAD_REQUEST_uhub-sapi-main-test" doc:id="1d32d82a-9fed-4764-b669-d0ba52e98ed8" expectedErrorType="APIKIT:BAD_REQUEST">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT:BAD_REQUEST APIkit Router" doc:id="76b2f26d-76ff-4b4d-8cfa-ce3e978d777e" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="APIKIT:BAD_REQUEST_Flow-ref to uhub-sapi-main" doc:id="0969282d-75f8-4943-9306-14feae9eefcb" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="APIKIT:NOT_FOUND_uhub-sapi-global-error-handler" doc:id="0c31f061-17fd-4023-8352-9723718b790a" expectedErrorType="APIKIT:NOT_FOUND" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT:NOT_FOUND APIkit Router" doc:id="e1132e1a-5f73-4fcc-ac40-136b914b5449" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Copy_of_APIKIT:BAD_REQUEST_Flow-ref to uhub-sapi-main" doc:id="0f87bd03-99d5-4495-ac7e-1448568596e2" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="APIKIT:METHOD_NOT_ALLOWED_uhub-sapi-global-error-handler" doc:id="6e5b50fb-a696-42d3-b2bd-ffc08f99d341" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT:METHOD_NOT_ALLOWED APIkit Router" doc:id="95b2c336-2b83-4786-ab60-858c3ac6d914" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Copy_of_Copy_of_APIKIT:BAD_REQUEST_Flow-ref to uhub-sapi-main" doc:id="59d68952-9067-4fc3-8c89-86ed584b8192" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="APIKIT:NOT_ACCEPTABLE_uhub-sapi-global-error-handler" doc:id="79e0c09f-f06b-42aa-8bc4-d2cb133f0ca1" expectedErrorType="APIKIT:NOT_ACCEPTABLE" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT:NOT_ACCEPTABLE APIkit Router" doc:id="f5e257dd-7ef5-4979-ba5d-937ecf24202e" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Copy_of_Copy_of_Copy_of_APIKIT:BAD_REQUEST_Flow-ref to uhub-sapi-main" doc:id="4e8c16b7-6c0b-403e-978a-2ac2c27e97b5" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="APIKIT:UNSUPPORTED_MEDIA_TYPE_uhub-sapi-global-error-handler" doc:id="4e236f7c-94f1-47a5-b3c7-6b034fd5b46a" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT:UNSUPPORTED_MEDIA_TYPEAPIkit Router" doc:id="7bac300c-aa42-47d6-a39f-4a127795c0dc" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Copy_of_Copy_of_Copy_of_Copy_of_APIKIT:BAD_REQUEST_Flow-ref to uhub-sapi-main" doc:id="be9e7fd2-d478-46ee-8fcd-0ea18f235f62" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="APIKIT:NOT_IMPLEMENTED_uhub-sapi-global-error-handler" doc:id="169e76c8-97cb-4702-b6be-2824cd43c4d4" expectedErrorType="APIKIT:NOT_IMPLEMENTED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT:NOT_IMPLEMENTED APIkit Router" doc:id="6255ab60-650c-4d3a-becf-1d342e3159c8" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Copy_of_Copy_of_Copy_of_Copy_of_Copy_of_APIKIT:BAD_REQUEST_Flow-ref to uhub-sapi-main" doc:id="277e70c7-abff-4f8b-a0a1-0c57cea6ee8f" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:BAD_REQUEST_uhub-sapi-global-error-handler" doc:id="957a1555-103c-4afc-b345-29b848acaa50" expectedErrorType="HTTP:BAD_REQUEST" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:BAD_REQUEST APIkit Router" doc:id="4dcbca64-fd24-42bd-a53a-cf95120c3182" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:BAD_REQUEST" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="APIKIT:BAD_REQUEST_Flow-ref to uhub-sapi-main" doc:id="8a414308-7b27-4c4d-9893-bfc472f4ffb1" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:FORBIDDEN_uhub-sapi-global-error-handler" doc:id="96d6b9a8-e66a-4bab-ab1e-525cc8f1df36" expectedErrorType="HTTP:FORBIDDEN" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:FORBIDDEN APIkit Router" doc:id="ba652a0d-c304-4696-86aa-badca8060069" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:FORBIDDEN" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:FORBIDDEN_Flow-ref to uhub-sapi-main" doc:id="bf0b9d85-f87c-443b-899b-4b2b3983c738" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:CLIENT_SECURITY_uhub-sapi-global-error-handler" doc:id="0dc24021-70e2-42a0-87f6-c48e24dd1d55" expectedErrorType="HTTP:CLIENT_SECURITY" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:CLIENT_SECURITY APIkit Router" doc:id="03692e99-d64b-4e49-bfd3-3dfcef2c3078" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:CLIENT_SECURITY" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:CLIENT_SECURITY_Flow-ref to uhub-sapi-main" doc:id="cf606114-6e5e-4ddf-9a75-fb513436a8d4" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:CONNECTIVITY_uhub-sapi-global-error-handler" doc:id="20252612-a61e-4034-821a-84883c1c6b19" expectedErrorType="HTTP:CONNECTIVITY" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:CONNECTIVITY APIkit Router" doc:id="08872844-9daf-47b2-820b-02dc92933bbe" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:CONNECTIVITY_Flow-ref to uhub-sapi-main" doc:id="da415ccc-daa8-440a-971e-74bf27a3e3cc" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:INTERNAL_SERVER_ERROR_uhub-sapi-global-error-handler" doc:id="2e1fc4fb-c63c-4d6b-9644-416425e517ce" expectedErrorType="HTTP:INTERNAL_SERVER_ERROR" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:INTERNAL_SERVER_ERROR APIkit Router" doc:id="11893eea-782e-42e8-8df0-b9943e3c57c4" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:INTERNAL_SERVER_ERROR" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:INTERNAL_SERVER_ERROR_Flow-ref to uhub-sapi-main" doc:id="26301261-6247-4b05-a782-16e4e0f7a2cc" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:METHOD_NOT_ALLOWED_uhub-sapi-global-error-handler" doc:id="8ee48655-ed3a-4337-9ea6-fe6e88bb3d40" expectedErrorType="HTTP:METHOD_NOT_ALLOWED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:METHOD_NOT_ALLOWED APIkit Router" doc:id="91327484-98e2-44fc-8a55-269336c185dd" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:METHOD_NOT_ALLOWED" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:METHOD_NOT_ALLOWED_Flow-ref to uhub-sapi-main" doc:id="11f061f8-175f-4d20-a910-23c4a8c887da" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:NOT_ACCEPTABLE_uhub-sapi-global-error-handler" doc:id="631b011f-9af3-4d83-ba4b-0b1dc4446589" expectedErrorType="HTTP:NOT_ACCEPTABLE" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:NOT_ACCEPTABLE APIkit Router" doc:id="f23ee9aa-720e-4f27-aa1c-59979b30157e" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:NOT_ACCEPTABLE" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:NOT_ACCEPTABLE_Flow-ref to uhub-sapi-main" doc:id="45cb1013-5361-4796-8c38-a21d2ea0063d" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:NOT_FOUND_uhub-sapi-global-error-handler" doc:id="7b46f663-589b-49e9-9667-e7eab2e156bb" expectedErrorType="HTTP:NOT_FOUND" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:NOT_FOUND APIkit Router" doc:id="115cce20-8a02-432f-beac-e6aa2b260d15" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:NOT_FOUND" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:NOT_FOUND_Flow-ref to uhub-sapi-main" doc:id="ec8db3a1-bf14-479e-bad2-817b18e26b25" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:PARSING_uhub-sapi-global-error-handler" doc:id="5a0030ae-80dd-4a9d-8871-40ea74d82fb8" expectedErrorType="HTTP:PARSING" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:PARSING APIkit Router" doc:id="369e7630-ed28-4d31-ba9d-3e9baa6edeee" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:PARSING" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:PARSING_Flow-ref to uhub-sapi-main" doc:id="2c6294c5-a11c-4d3b-b571-f2f4ee4ad234" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:RETRY_EXHAUSTED_uhub-sapi-global-error-handler" doc:id="601c25d2-ca10-4108-abd2-2512f76f2bb8" expectedErrorType="HTTP:RETRY_EXHAUSTED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:RETRY_EXHAUSTED APIkit Router" doc:id="e2945ce1-a339-4785-838e-bb06f12d2b79" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:RETRY_EXHAUSTED" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:RETRY_EXHAUSTED_Flow-ref to uhub-sapi-main" doc:id="d0702876-af9e-4340-8095-3cc12be4f403" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:SECURITY_uhub-sapi-global-error-handler" doc:id="116dae43-2868-4c01-880c-41abd115f162" expectedErrorType="HTTP:SECURITY" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:SECURITY APIkit Router" doc:id="2dd9da51-08b9-4270-b6ab-d9f739a816cb" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:SECURITY" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:SECURITY_Flow-ref to uhub-sapi-main" doc:id="14a5711e-80ac-438e-a51f-27b98cf0642f" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:TIMEOUT_uhub-sapi-global-error-handler" doc:id="19847b25-fd23-4740-ad42-bce3b77e0d8c" expectedErrorType="HTTP:TIMEOUT" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:TIMEOUT APIkit Router" doc:id="c505372a-83c5-481f-b70f-a935a7631195" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:TIMEOUT" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:TIMEOUT_Flow-ref to uhub-sapi-main" doc:id="3fb9733e-869f-4dfd-bb18-b5a3fb9c0e4f" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:TOO_MANY_REQUESTS_uhub-sapi-global-error-handler" doc:id="2024c6cb-efe2-4f08-b2bb-93ec90b029ba" expectedErrorType="HTTP:TOO_MANY_REQUESTS" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:TOO_MANY_REQUESTS APIkit Router" doc:id="506578a5-e898-4f7d-908a-5f73e1fcb93d" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:TOO_MANY_REQUESTS" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:TOO_MANY_REQUESTS_Flow-ref to uhub-sapi-main" doc:id="50358b7a-23b5-4e69-a8fc-a446dbc351be" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:UNAUTHORIZED_uhub-sapi-global-error-handler" doc:id="ba2a281f-83d5-46c4-aeb4-1c0d1e12f834" expectedErrorType="HTTP:UNAUTHORIZED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:UNAUTHORIZED APIkit Router" doc:id="f5aaddb7-a4b3-4d13-80c8-0748de059f9a" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:UNAUTHORIZED" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:UNAUTHORIZED_Flow-ref to uhub-sapi-main" doc:id="f51c6d0c-96e7-4b89-a1c6-68a27f779ba0" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="HTTP:UNSUPPORTED_MEDIA_TYPE_uhub-sapi-global-error-handler" doc:id="ebf7ce4c-7187-470f-abbc-081c13ce0df7" expectedErrorType="HTTP:UNSUPPORTED_MEDIA_TYPE" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="HTTP:UNSUPPORTED_MEDIA_TYPE APIkit Router" doc:id="4e4b6475-7a3b-4d44-a313-ce8d2ab28c81" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="HTTP:UNSUPPORTED_MEDIA_TYPE" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="HTTP:UNSUPPORTED_MEDIA_TYPE_Flow-ref to uhub-sapi-main" doc:id="e25d6d8f-a3fa-4edf-8c45-a118a2828a3a" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="STREAM_MAXIMUM_SIZE_EXCEEDED_uhub-sapi-global-error-handler" doc:id="7b8facc6-7ab4-4c6c-b66a-36a0f65c132a" expectedErrorType="STREAM_MAXIMUM_SIZE_EXCEEDED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="STREAM_MAXIMUM_SIZE_EXCEEDED APIkit Router" doc:id="f2324bbf-198d-476c-bacb-8bf297f2c130" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="STREAM_MAXIMUM_SIZE_EXCEEDED" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="STREAM_MAXIMUM_SIZE_EXCEEDED_Flow-ref to uhub-sapi-main" doc:id="b2a2b499-32db-4539-8620-07cea717c1ca" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="RETRY_EXHAUSTED_uhub-sapi-global-error-handler" doc:id="44443d10-3902-4ffc-b66b-a8584a227f6b" expectedErrorType="RETRY_EXHAUSTED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="RETRY_EXHAUSTED APIkit Router" doc:id="9b818d86-39e0-446d-850d-19826f091063" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="RETRY_EXHAUSTED" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="RETRY_EXHAUSTED_Flow-ref to uhub-sapi-main" doc:id="55cd618c-7357-48eb-9beb-27945053e073" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="REDELIVERY_EXHAUSTED_uhub-sapi-global-error-handler" doc:id="273a2ef9-3e59-4a56-a870-4f216e90c694" expectedErrorType="REDELIVERY_EXHAUSTED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="REDELIVERY_EXHAUSTED APIkit Router" doc:id="3720bf7b-48db-4774-a978-324a40a84ede" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="REDELIVERY_EXHAUSTED" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="REDELIVERY_EXHAUSTED_Flow-ref to uhub-sapi-main" doc:id="428efae9-2af6-499d-af37-a17abea42d13" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="CONNECTIVITY_uhub-sapi-global-error-handler" doc:id="883bf037-50ea-48d2-a891-156de11981c4" expectedErrorType="CONNECTIVITY" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="CONNECTIVITY APIkit Router" doc:id="bf74cd0b-3d4f-4a62-ae0e-b4ee7ca1304c" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="CONNECTIVITY" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="CONNECTIVITY_Flow-ref to uhub-sapi-main" doc:id="effd46ed-cea3-48f7-83b8-3b3686b2e7c7" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="TIMEOUT_uhub-sapi-global-error-handler" doc:id="d4e937be-70d6-4dde-b657-0e852ce45605" expectedErrorType="TIMEOUT" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="TIMEOUT APIkit Router" doc:id="d020327a-fb0b-409d-8e62-1ee9f624136b" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="TIMEOUT" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="TIMEOUT_Flow-ref to uhub-sapi-main" doc:id="341e6927-2513-4a81-b9ac-2da2c3dd62aa" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="TRANSFORMATION_uhub-sapi-global-error-handler" doc:id="5d20d506-7f18-451e-b032-0a14c63a6e13" expectedErrorType="TRANSFORMATION" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="TRANSFORMATION APIkit Router" doc:id="6a30a0e3-75ae-4100-91ba-d0b81eaa177f" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="TRANSFORMATION" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="TRANSFORMATION_Flow-ref to uhub-sapi-main" doc:id="da2698d0-9e71-4121-891e-630afd2c4136" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="EXPRESSION_uhub-sapi-global-error-handler" doc:id="c963d037-66fc-48c8-8473-3ff8e0d74d9d" expectedErrorType="EXPRESSION" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="EXPRESSION APIkit Router" doc:id="cde560e4-23f1-4a95-b51c-13fbc252e7c4" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="EXPRESSION" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="EXPRESSION_Flow-ref to uhub-sapi-main" doc:id="99fe10fb-aee2-4afc-b92d-01299822893f" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="ROUTING_uhub-sapi-global-error-handler" doc:id="35cb2d5d-d23f-4de0-bf49-2e4a6db58885" expectedErrorType="ROUTING" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="ROUTING APIkit Router" doc:id="e7ab4591-f8ed-420a-98c9-67a5c04bf5ec" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="ROUTING" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="ROUTING_Flow-ref to uhub-sapi-main" doc:id="61d6791a-9502-49f8-b9bc-d302e821c016" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="ANY_uhub-sapi-global-error-handler" doc:id="2fcb6cc0-cf07-42cd-8f99-87b07d41232c" expectedErrorType="ANY" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="ANY APIkit Router" doc:id="a114f330-d873-44ad-ade0-94617b039fc1" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="ANY" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="ANY_Flow-ref to uhub-sapi-main" doc:id="ac167aa0-7cba-4462-b93d-8d6873a35f16" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="SECURITY_uhub-sapi-global-error-handler" doc:id="289bec27-2502-4c32-8eb2-7714c0ef4085" expectedErrorType="SECURITY" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="SECURITY APIkit Router" doc:id="5aaba378-51b7-4d8a-8eef-c77ae8806ac7" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62239c14-e2af-4968-803a-429398cc460d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:error typeId="SECURITY" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://uhubsapimaintest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="nationalId" value="#[output application/java --- readUrl('classpath://uhubsapimaintest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://uhubsapimaintest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="SECURITY_Flow-ref to uhub-sapi-main" doc:id="42e9e758-5c5a-47f9-be4c-ddc4f7fbe925" name="uhub-sapi-main" />
+		</munit:execution>
+	</munit:test>
+
+
+</mule>

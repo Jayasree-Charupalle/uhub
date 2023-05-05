@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="register-covid-case-suite.xml" />
+	<munit:test name="post:\cases:application\json:uhub-sapi-config-test" doc:id="df5497ac-e2e5-4f48-bc9b-a6cd00987a2f" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock register covid cases" doc:id="3beb2f81-84e8-4883-9b41-a1d72d86da44" processor="db:insert">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="f9b0dee1-d248-412a-8fa4-acbf4c9d3101" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\mock_attributes1.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="registered_cases" value="#[output application/java --- readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\mock_variable_6.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\mock_variable_7.dwl')]" />
+						<munit-tools:variable key="covidCasePayload" value="#[output application/json --- readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\mock_variable_8.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\mock_variable_11.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Spy Covid Case Payload" doc:id="017e569d-36e8-4490-b986-6213321a0352" processor="ee:transform">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="16c0c6f4-e528-4f01-92ce-8d60211d46c8" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="8985e1a6-77e1-4e3c-8e8e-319635a0e3d7" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import postcasesapplicationjsonuhubsapiconfigtest::spy_assert_payload2
+---
+spy_assert_payload2::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="477426ca-6807-49ed-935f-0100933cafd4" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import postcasesapplicationjsonuhubsapiconfigtest::spy_assert_payload3
+---
+spy_assert_payload3::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit:set-event doc:name="Set Input" doc:id="79afe068-4844-4081-a12c-98cf465c11c0" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\set-event_payload1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\set-event_attributes1.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\set-event_variable_.dwl')]" />
+					<munit:variable key="transactionId" value="#[output application/json --- readUrl('classpath://postcasesapplicationjsonuhubsapiconfigtest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to post:\cases:application\json:uhub-sapi-config" doc:id="db4e9aff-253d-4300-9636-a574378a756f" name="post:\cases:application\json:uhub-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="8d964f78-3bfb-48d2-ac34-eefef87cf8a3" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import postcasesapplicationjsonuhubsapiconfigtest::assert_expression_payload1
+---
+assert_expression_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Covid Case Payload" doc:id="7ebec306-25ea-4c40-ad70-03b932605e51" processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="16c0c6f4-e528-4f01-92ce-8d60211d46c8" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

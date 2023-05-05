@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="update-covid-case-suite.xml" />
+	<munit:test name="put:\cases:application\xml:uhub-sapi-config-test" doc:id="27fe05ff-ccf6-4cab-9ac9-16f3512519a8" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock  Update covid cases" doc:id="7df9540c-098e-40d4-8561-5439d2b866b2" processor="db:update">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0ba03374-9a7c-480c-9f2c-8023d7f819c6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/xml --- readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\mock_payload.dwl')]" mediaType="application/xml" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="updatedcases" value="#[output application/java --- readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="Inputpayload" value="#[output application/json --- readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="correlationId" value="#[output application/json --- readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="updatepayload" value="#[output application/json --- readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\mock_variable_4.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/json --- readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\mock_variable_5.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Spy update covid cases payload" doc:id="6b8e3af4-47e8-4166-88e8-7febb8d9f524" processor="ee:transform">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="6bca00a4-97df-4880-a777-127635401bc9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="c6c8788b-c55a-4938-90c3-cf73fda51f74" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import putcasesapplicationxmluhubsapiconfigtest::spy_assert_payload
+---
+spy_assert_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="dea6adb1-525f-49ac-ab0f-2559ce388155" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import putcasesapplicationxmluhubsapiconfigtest::spy_assert_payload1
+---
+spy_assert_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit:set-event doc:name="Set Input" doc:id="30f464a3-49b5-4b9d-9c9b-6dc3fc3c0f2a" >
+				<munit:payload value="#[output application/xml --- readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/xml" />
+				<munit:attributes value="#[readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\set-event_variable_.dwl')]" />
+					<munit:variable key="transactionId" value="#[output application/json --- readUrl('classpath://putcasesapplicationxmluhubsapiconfigtest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to put:\cases:application\xml:uhub-sapi-config" doc:id="2336d1a5-7561-4c89-a2d1-7c3a47262ad2" name="put:\cases:application\xml:uhub-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="059b5d2f-4e39-40f9-a7d7-524703a49873" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import putcasesapplicationxmluhubsapiconfigtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify update covid cases payload" doc:id="2588d3ed-ed9a-4536-9d4b-39c718c21a23" processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="6bca00a4-97df-4880-a777-127635401bc9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

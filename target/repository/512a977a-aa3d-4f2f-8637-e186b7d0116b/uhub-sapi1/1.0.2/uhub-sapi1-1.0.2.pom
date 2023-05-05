@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>512a977a-aa3d-4f2f-8637-e186b7d0116b</groupId>
+  <artifactId>uhub-sapi1</artifactId>
+  <version>1.0.2</version>
+  <name>uhub-sapi1</name>
+  <properties>
+    <classifier>raml</classifier>
+    <main>uhub-sapi.raml</main>
+    <status>published</status>
+    <originalFormatVersion>1.0</originalFormatVersion>
+    <apiVersion>v1</apiVersion>
+    <projectId>0059f0b3-69db-4c74-a070-ef335bbdf2ba</projectId>
+    <branchId>master</branchId>
+    <commitId>3e1765c26c576e7f42609a182226dbe8a6f9305c</commitId>
+    <keywords/>
+    <type>rest-api</type>
+    <mainFile>uhub-sapi.raml</mainFile>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>512a977a-aa3d-4f2f-8637-e186b7d0116b</groupId>
+      <version>1.0.0</version>
+      <type>zip</type>
+      <classifier>raml-fragment</classifier>
+      <artifactId>uho-common-datatypes-library</artifactId>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>anypoint-exchange</id>
+      <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+    </repository>
+  </repositories>
+</project>

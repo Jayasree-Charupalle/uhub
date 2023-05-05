@@ -1,0 +1,30 @@
+{
+  "headers": {
+    "x-correlation-id": "234567890",
+    "x-transaction-id": "jayasree",
+    "content-type": "application/xml",
+    "user-agent": "PostmanRuntime/7.32.2",
+    "accept": "*/*",
+    "postman-token": "68318280-0a26-4654-9b6d-844e97cbce98",
+    "host": "localhost:8081",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "533"
+  },
+  "clientCertificate": null,
+  "method": "PUT",
+  "scheme": "http",
+  "queryParams": {},
+  "requestUri": "/api/cases",
+  "queryString": "",
+  "version": "HTTP/1.1",
+  "maskedRequestPath": "/cases",
+  "listenerPath": "/api/*",
+  "relativePath": "/api/cases",
+  "localAddress": "/127.0.0.1:8081",
+  "uriParams": {},
+  "rawRequestUri": "/api/cases",
+  "rawRequestPath": "/api/cases",
+  "remoteAddress": "/127.0.0.1:61133",
+  "requestPath": "/api/cases"
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="get:\cases\(nationalId):uhub-sapi-config">
+		<ee:transform doc:name="set correlationId and input payload" doc:id="92311a40-1a4e-479b-a11e-f057d6fc69c4" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="Inputpayload" ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+				<ee:set-variable variableName="correlationId" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.headers."x-correlation-id" default "nationalId"]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="nationalId">attributes.uriParams.'nationalId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<logger level="INFO" doc:name="start Logger" doc:id="394b2798-ace3-4efc-8fe2-e6567116a8e1" message="transactionId:#[vars.transactionId], correlationId:#[vars.correlationId], inputpayload:#[vars.Inputpayload]"/>
+		<until-successful maxRetries="3" doc:name="Until Successful" doc:id="0a691466-794c-4a6e-966e-f948a9cb0cb7" >
+			<db:select doc:name="Select" doc:id="8085599d-da15-4e7a-bba4-fbf0f6691c4f" config-ref="Database_Config">
+			<db:sql><![CDATA[select case_id,source,case_type,first_name,last_name,phone,email,date_of_birth,national_Id,national_id_type,street_address,city,state,postal,country from employee where national_Id = :nationalId]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+	"nationalId": vars.nationalId
+}]]]></db:input-parameters>
+		</db:select>
+		</until-successful>
+		<choice doc:name="Choice" doc:id="96a61bd2-7ad6-44bc-a8d1-d674f106847c" >
+			<when expression="#[sizeOf(payload)&gt;0]">
+				<ee:transform doc:name="Transform Message" doc:id="6fca0a9f-adbc-45a4-b4ac-20449da772f2" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map((item,index)->{
+	"caseId": item.case_id,
+	"source": item.source,
+	"caseType": item.case_type,
+	"firstName": item.first_name,
+	"lastName": item.last_name,
+	"phone": item.phone,
+	"email": item.email,
+	"dateOfBirth": item.date_of_birth,
+	"nationalId": item.national_Id,
+	"nationalIdType": item.national_id_type,
+	"address": {
+		"streetAddress": item.street_address,
+		"city": item.city,
+		"state": item.state,
+		"postal": item.postal,
+		"country": item.country
+	}
+})
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="cb20a037-a280-4f10-b561-b535bc5a1f84" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: 404,
+	message : "Not Found",
+	description: "Resource Not Found",
+	dateTime: now() as String {format: "yyyy-MM-dd'T'HH:mm:ss'Z'"},
+	transactionId: vars.transactionId
+}
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="7b112958-6681-4813-8684-6d7a6d84e5fb" message="#[payload]"/>
+    
+</flow>
+	</mule>

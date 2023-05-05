@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+          <covidCase>
+            <caseId>1</caseId>
+            <source>Hospital1</source>
+            <caseType>Positive</caseType>
+            <firstName>Akshay</firstName>
+            <lastName>Jain</lastName>
+            <phone>7892947761</phone>
+            <email>akshay1@gmail.com</email>
+            <dateOfBirth>1991-02-20</dateOfBirth>
+            <nationalId>542684416661</nationalId>
+            <nationalIdType>Aadhar</nationalIdType>
+            <address>
+              <streetAddress>Miyapur1</streetAddress>
+              <city>Hyd</city>
+              <state>Tel</state>
+              <postal>500041</postal>
+              <country>India</country>
+            </address>
+          </covidCase>

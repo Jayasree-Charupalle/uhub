@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<error-handler name="global_error_Handler">
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <ee:transform doc:id="42ec2890-b470-4a71-9464-346ce999a9f1">
+                    <ee:message>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
+					<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+output application/json
+---
+"Bad request"]]></ee:set-variable>
+					<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+output application/json
+---
+error.description ]]></ee:set-variable>
+                    
+</ee:variables>
+                </ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="44fbaedd-72d6-4ee3-8ee8-1c8718c6431e" name="global-error-handlerSub_Flow"/>
+            
+			</on-error-propagate>
+			<on-error-propagate type="APIKIT:NOT_FOUND">
+				<ee:transform doc:name="Transform Message" doc:id="a3469156-9713-4ba7-988e-e1dd9f32029f">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"not found"]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"The server has not found anything matching the Request-URI" ]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="bb74c461-dda5-4f68-8e24-a6e6076e2c3e" name="global-error-handlerSub_Flow"/>
+				
+			</on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+				<ee:transform doc:name="" doc:id="8232431d-d6c8-4186-8804-c2edf827246e">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"method not allowed"]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"The method specified in the request is not allowed for this resource"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="0f35e4c7-1abb-433e-9a44-49185552cadf" name="global-error-handlerSub_Flow"/>
+			
+			</on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+				<ee:transform doc:name="" doc:id="61628dd6-bbbd-4173-954a-368ac508f14f">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"not acceptable"]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"The resource identified by the request is not capable of generating response entities according to the request accept headers"
+
+
+	]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="4fa38819-21c5-4aa4-9874-1067a336d4ab" name="global-error-handlerSub_Flow"/>
+				
+			</on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+				<ee:transform doc:name="" doc:id="f2cc9084-2d21-40f8-914a-e4e7d804b11a">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"unsupported media type"]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method"
+
+
+	 ]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="3732083b-5384-4cc8-b989-04d006508d4c" name="global-error-handlerSub_Flow"/>
+				
+			</on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+				<ee:transform doc:name="" doc:id="05250a82-f34c-48a5-97e8-2c3cbc0d1203">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage"><![CDATA[%dw 2.0
+	output application/json
+	---
+	"not implemented"]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription"><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description ]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="d484500c-e707-45fa-806b-5a7b3e00f9a5" name="global-error-handlerSub_Flow"/>
+				
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8acd5bd2-91a6-4cb4-99dd-0677ce02a3af" type="HTTP:BAD_REQUEST">
+				<ee:transform doc:name="Transform Message" doc:id="1159e2ef-7229-4206-9508-5443e1de4f88" >
+					<ee:message >
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"http bad request"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="8932dc6f-e7b5-4f95-b8af-0df1766a528e" name="global-error-handlerSub_Flow"/>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="66ca4a73-fc0f-448e-ad71-30f0eb8df8a9" type="HTTP:FORBIDDEN">
+				<ee:transform doc:name="Transform Message" doc:id="9b45e57c-65bb-43cf-95bd-7f0077340095" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[403]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"http forbidden"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="ea6522c1-d178-4d65-892a-5119674bc943" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d6dd3bed-fd45-4891-93b2-353ec03f3216" type="HTTP:CLIENT_SECURITY">
+				<ee:transform doc:name="Transform Message" doc:id="675b3a82-5b00-4758-97dc-cfad529f5877" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[401]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"http client security"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="d6072718-0735-4416-a428-1345814b0eb1" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c320961c-9fcc-4a01-b6cf-b086039a8158" type="HTTP:CONNECTIVITY">
+				<ee:transform doc:name="Transform Message" doc:id="16f19287-8b10-417b-92df-89a3294a555b" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"the service is temporarily not available"
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"service unavailable"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="619ed51b-e834-44d7-bc8c-be45275951e8" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f04d8ad4-e464-4121-9d11-ca45654710df" type="HTTP:INTERNAL_SERVER_ERROR">
+				<ee:transform doc:name="Transform Message" doc:id="82844fac-6dd4-4e8d-8865-e8236824d717" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"upstream service unable to fulfil request"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="fdc7877e-b558-4361-8d6e-445d28058b53" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="16506b49-0e7a-4e65-9a0f-bb2b3d399e18" type="HTTP:METHOD_NOT_ALLOWED">
+				<ee:transform doc:name="Transform Message" doc:id="a55b1358-29f4-4315-94e3-2529185bc8e1" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[405]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"the method specified in the request is not allowed for this resource"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="1fd581ef-25ed-44d4-9961-a7213bada77d" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="12c1c8d9-9b96-4e52-872a-c87d2c31bdca" type="HTTP:NOT_ACCEPTABLE">
+				<ee:transform doc:name="Transform Message" doc:id="af82e28e-2dea-474b-b781-7b41c8ecf298" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[406]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"http not accepted"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="a9d4a6db-e584-43fe-aede-173105736864" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e6b709f5-1541-46ee-87e6-66c316a88005" type="HTTP:NOT_FOUND">
+				<ee:transform doc:name="Transform Message" doc:id="d4da6b88-f258-40a9-b780-aa2c06b3cf8d" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+output application/json
+---
+error.description
+
+]]></ee:set-variable>
+					<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+output application/json
+---
+"The server has not found anything matching the Request-URI"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="Flow Reference" doc:id="28bee555-4f74-431a-bddf-d70ec68caf01" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a7d86b32-2e05-4d1b-8be1-448bd533abcd" type="HTTP:PARSING">
+				<ee:transform doc:name="Transform Message" doc:id="6800498b-4814-45ce-b621-85ac901dcbe6" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="e2a45f75-34b2-4f56-96f6-4185e908c111" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f7b8a5ae-1fbd-40c9-b087-aa467b196fd7" type="HTTP:RETRY_EXHAUSTED">
+			<ee:transform doc:name="Transform Message" doc:id="663a96c2-92b8-4704-bd51-2b6af6bc4a03" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+					<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+output application/json
+---
+error.description
+
+]]></ee:set-variable>
+					<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+output application/json
+---
+error.errorType
+.identifier]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="Flow Reference" doc:id="745e1aac-dc51-43bc-8535-20d12fca3903" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5a3dfa3a-39ea-4daf-b2c1-6cb944d8face" type="HTTP:SECURITY">
+				<ee:transform doc:name="Transform Message" doc:id="1869ff65-beae-44ea-b056-dc1a0a6738ad" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[401]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="784388d4-99ae-4da2-9e34-e8a2642af053" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="9944a657-a8d1-40d2-ada5-6498c697dd60" type="HTTP:TIMEOUT">
+				<ee:transform doc:name="Transform Message" doc:id="92f3a2fe-9527-4470-9175-7fbbab99bd7a" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[504]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="f859313f-1221-41aa-bdb4-a9de92801a80" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="ff8f9df1-0b2c-4f11-b427-0c8787c6dd51" type="HTTP:TOO_MANY_REQUESTS">
+				<ee:transform doc:name="Transform Message" doc:id="b9b139db-f687-494a-aed6-91282a313bcc" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[429]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="d0c48e09-9237-4d1b-9e2a-f3476bd4eee0" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="077e474b-f5ca-4de0-aa42-199cf15fa828" type="HTTP:UNAUTHORIZED">
+				<ee:transform doc:name="Transform Message" doc:id="78712e12-d7f3-4e1e-b129-6bf27fc1d389" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[401]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="2ba4d624-df32-43a1-945d-354e26c2473b" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b038c2bc-53cb-459e-90c0-b2c1fa50ecd2" type="HTTP:UNSUPPORTED_MEDIA_TYPE">
+				<ee:transform doc:name="Transform Message" doc:id="9866f074-e74a-4dcd-bbec-9297532c2d8d" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[415]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="150ac42d-829a-4492-ade6-a9e8dd12bdf8" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b26948f8-2515-49a5-9ff8-0dffff23cbed" type="STREAM_MAXIMUM_SIZE_EXCEEDED">
+				<ee:transform doc:name="Transform Message" doc:id="9ae926ad-8c59-47e0-94bf-5bc66a1bef35" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="df65a9b9-698b-4710-94af-6e8c9d1ba8d9" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="97f364e4-9387-44e9-9bd8-a27099aa1abf" type="RETRY_EXHAUSTED">
+				<ee:transform doc:name="Transform Message" doc:id="c7477253-d7ce-42c3-b5c8-dda6ac75ca71" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="91f79a9e-a95e-40f0-a303-bd2c88f9c872" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="9f5ecb44-9103-46de-895f-c4972b1d8737" type="REDELIVERY_EXHAUSTED">
+				<ee:transform doc:name="Transform Message" doc:id="90795eec-bc84-4c29-a264-e4a1c91eb2ff" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="3b43272b-f8e8-468a-b874-205c2672dd3e" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c54b471e-3a6a-4420-9931-90a0e5da9fdd" type="CONNECTIVITY">
+				<ee:transform doc:name="Transform Message" doc:id="e5f151a1-e92c-455d-b229-29bd6968036c" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="bd5b999e-124c-4536-b59e-29773f4ff76c" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="739d519d-84f1-4a29-8c2d-e0fa40eab13a" type="TIMEOUT">
+				<ee:transform doc:name="Transform Message" doc:id="d1e59032-b584-437b-a4a8-f70ca4d2467c" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[504]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="a7e0f514-7674-47fa-ba89-43884d424a90" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e35b266f-1841-4ec6-ab20-1b68b6b088a3" type="TRANSFORMATION">
+				<ee:transform doc:name="Transform Message" doc:id="045a5859-a0e9-457f-b8f2-eed6b67677ea" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="50366f49-2fd5-46ff-b10e-a9c1e434a714" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e380a4a1-88b5-4261-a4de-4969be8f3404" type="EXPRESSION">
+				<ee:transform doc:name="Transform Message" doc:id="3e958a7d-9e1b-410b-a846-5cbc730af3b8" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="0820a3fa-d540-48fa-9124-cfb3f264e797" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d40ced8d-370a-4312-8ea1-203939918d18" type="ROUTING">
+				<ee:transform doc:name="Transform Message" doc:id="1a37666a-993c-4ef2-9494-52ebe134cfa3" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="c5e72615-28d3-41e4-bb1a-278c0f4a09ac" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="46f68bcf-9c2c-4569-99dd-0615ee949d35" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="5066f8ef-4e87-40c4-895e-d07e2682706c" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"the server encountered an unexpected condition which prevented it from fulfilling the request"
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	"internal server error"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="16cc0da5-906b-4f07-a862-68329eb6672c" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="6364bcb4-557f-416f-9c4d-b13e7cdcd408" type="SECURITY">
+				<ee:transform doc:name="Transform Message" doc:id="5e070709-24cc-4c78-95fc-8381a1eec1fb" >
+					<ee:message />
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[401]]></ee:set-variable>
+						<ee:set-variable variableName="errordescription" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.description
+
+	]]></ee:set-variable>
+						<ee:set-variable variableName="errormessage" ><![CDATA[%dw 2.0
+	output application/json
+	---
+	error.errorType.identifier]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="6cc04ab4-1cdb-4a44-8012-845ab887b54e" name="global-error-handlerSub_Flow" />
+			</on-error-propagate>
+			
+	</error-handler>
+		<sub-flow name="global-error-handlerSub_Flow" doc:id="f017aac4-36db-457f-b31d-163f46c5394f">
+			<ee:transform doc:name="Transform Message" doc:id="8f7478a2-121d-4319-9897-1db12d466ae4">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+	output application/json
+	---
+	{
+		"code": vars.httpStatus,
+		"message": vars.errormessage,
+		"description": vars.errordescription,
+		"dateTime": now() as DateTime,
+		"transactionId": vars.transactionId
+	}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			<logger level="INFO" doc:name="Logger" doc:id="b86472da-c1bf-48e5-84cd-2fec61655167" message="httpstatuscode:#[payload.code],message:#[payload.message],description:#[payload.description]" />
+		</sub-flow> 
+	</mule>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="healthchec-suite.xml" />
+	<munit:test name="get:\health-check:uhub-sapi-config-test" doc:id="883ffe68-246a-4d5f-8a94-8178119be522" >
+		<munit:behavior >
+			<munit-tools:spy doc:name="Spy Transform Message" doc:id="8e786831-d36f-434e-a6fa-7d78c0794023" processor="ee:transform">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="1c6a8925-cc0f-4785-9c21-fd63393223bb" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="7203ceca-dd72-4ff9-9aab-5d6b94ef77df" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import gethealthcheckuhubsapiconfigtest::spy_assert_payload
+---
+spy_assert_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="5c4134d7-47c8-42f4-919d-f1f3f7128a90" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import gethealthcheckuhubsapiconfigtest::spy_assert_payload1
+---
+spy_assert_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit:set-event doc:name="Set Input" doc:id="aa3a75a1-31c2-4d24-928b-919844d37156" >
+				<munit:payload value="#[readUrl('classpath://gethealthcheckuhubsapiconfigtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://gethealthcheckuhubsapiconfigtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://gethealthcheckuhubsapiconfigtest\set-event_variable_.dwl')]" />
+					<munit:variable key="transactionId" value="#[output application/json --- readUrl('classpath://gethealthcheckuhubsapiconfigtest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\health-check:uhub-sapi-config" doc:id="bf349705-6238-42ec-a277-a0c5de8b3e6d" name="get:\health-check:uhub-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="f201c0be-b264-46df-9d24-7b5781be848c" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import gethealthcheckuhubsapiconfigtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Transform Message" doc:id="623655d2-b413-4c98-ae33-cd433904273f" processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="1c6a8925-cc0f-4785-9c21-fd63393223bb" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

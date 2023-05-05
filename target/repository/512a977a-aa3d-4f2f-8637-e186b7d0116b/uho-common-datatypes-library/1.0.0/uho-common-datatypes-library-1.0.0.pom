@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>512a977a-aa3d-4f2f-8637-e186b7d0116b</groupId>
+  <artifactId>uho-common-datatypes-library</artifactId>
+  <version>1.0.0</version>
+  <name>uho-common-datatypes-library</name>
+  <properties>
+    <classifier>raml-fragment</classifier>
+    <main>uho-common-datatypes-library.raml</main>
+    <status>published</status>
+    <originalFormatVersion>1.0</originalFormatVersion>
+    <apiVersion>v1</apiVersion>
+    <projectId>ac1dacb4-63d6-4c8a-b157-4353eeded37d</projectId>
+    <branchId>master</branchId>
+    <commitId>6c7ccc36914d6377a3e5e3010cc78e0284403fb2</commitId>
+    <keywords/>
+    <type>raml-fragment</type>
+    <mainFile>uho-common-datatypes-library.raml</mainFile>
+  </properties>
+  <repositories>
+    <repository>
+      <id>anypoint-exchange</id>
+      <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+    </repository>
+  </repositories>
+</project>
